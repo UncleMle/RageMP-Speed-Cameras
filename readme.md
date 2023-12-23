@@ -1,0 +1,1 @@
+A script that adds speedcameras to your gamemode. Written in C# & Typescript.
