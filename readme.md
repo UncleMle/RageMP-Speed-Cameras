@@ -1,1 +1,1 @@
-A script that adds speedcameras to your gamemode. Written in C# & Typescript.
+A script that adds speedcameras to your gamemode. Written in C# & Typescript. I've pre-added some speed camera locations, speed limits and prices you change these in the ``SpeedCamerasServer.cs`` file.
