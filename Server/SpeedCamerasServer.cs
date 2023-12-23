@@ -1,7 +1,3 @@
-using CloudRP.Character;
-using CloudRP.PlayerData;
-using CloudRP.Utils;
-using CloudRP.Vehicles;
 using GTANetworkAPI;
 using Newtonsoft.Json;
 using System;
@@ -130,7 +126,7 @@ namespace CloudRP.SpeedCameras
         public void handleSpeedCamera(Player player, int vehicleSpeed)
         {
             SpeedCamera cameraData = player.GetData<SpeedCamera>(_speedCameraDataIdentifier);
-            DbCharacter characterData = PlayersData.getPlayerCharacterData(player);
+            DbCharacter characterData = // Get your character data
 
             if(cameraData != null && characterData != null && player.IsInVehicle)
             {
