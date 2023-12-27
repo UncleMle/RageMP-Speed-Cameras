@@ -147,7 +147,10 @@ namespace CloudRP.SpeedCameras
                     {
                         NAPI.Pools.GetAllPlayers().ForEach(p =>
                         {
-                            p.TriggerEvent("client:handleCameraFlash", player.Vehicle.Id, cameraData.camFlashPos.X, cameraData.camFlashPos.Y, cameraData.camFlashPos.Z);
+                            if(Vector3.Distance(p.Position, player.Position) < 120)
+                            {
+                                p.TriggerEvent("client:handleCameraFlash", player.Vehicle.Id, cameraData.camFlashPos.X, cameraData.camFlashPos.Y, cameraData.camFlashPos.Z);
+                            }
                         });
 
                         // Replace this with your system of removing player money.
