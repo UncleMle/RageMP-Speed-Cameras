@@ -145,11 +145,9 @@ namespace CloudRP.SpeedCameras
 
                     if(closest != null)
                     {
-                        List<Player> closePlayers = NAPI.Player.GetPlayersInRadiusOfPlayer(40f, player);
-
-                        closePlayers.ForEach(p =>
+                        NAPI.Pools.GetAllPlayers().ForEach(p =>
                         {
-                            p.TriggerEvent("client:handleCameraFlash", player.Vehicle.Id, cameraData.camPropPos.X, cameraData.camPropPos.Y, cameraData.camPropPos.Z);
+                            p.TriggerEvent("client:handleCameraFlash", player.Vehicle.Id, cameraData.camFlashPos.X, cameraData.camFlashPos.Y, cameraData.camFlashPos.Z);
                         });
 
                         // Replace this with your system of removing player money.
