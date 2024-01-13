@@ -12,23 +12,14 @@ namespace CloudRP.SpeedCameras
         public string _speedCameraDataIdentifier = "speedCameraColshapeData";
         public List<SpeedCamera> cameras = new List<SpeedCamera>
         {
-            new SpeedCamera
-            {
-                position = new Vector3(431.9, -548.4, 28.8),
-                camPropPos = new Vector3(399.9, -561.0, 27.1),
-                camFlashPos = new Vector3(400.1, -560.8, 32.7),
-                camRot = 155,
-                range = 10,
-                speedLimit = 80,
-            },
-            new SpeedCamera
-            {
-                position = new Vector3(425.8, -536.1, 28.7),
-                camPropPos = new Vector3(399.9, -561.0, 27.1),
-                camFlashPos = new Vector3(400.1, -560.8, 32.7),
-                camRot = 155,
-                range = 10,
-                speedLimit = 80,
+             new SpeedCamera
+             {
+                 position = new Vector3(431.9, -548.4, 28.8),
+                 camPropPos = new Vector3(399.9, -561.0, 27.1),
+                 camFlashPos = new Vector3(400.1, -560.8, 32.7),
+                 camRot = 155,
+                 range = 10,
+                 speedLimit = 80,
             },
             new SpeedCamera
             {
@@ -148,11 +139,12 @@ namespace CloudRP.SpeedCameras
 
                     if(closest != null)
                     {
-                        List<Player> closePlayers = NAPI.Player.GetPlayersInRadiusOfPlayer(40f, player);
-
-                        closePlayers.ForEach(p =>
+                        NAPI.Pools.GetAllPlayers().ForEach(p =>
                         {
-                            p.TriggerEvent("client:handleCameraFlash", player.Vehicle.Id, cameraData.camPropPos.X, cameraData.camPropPos.Y, cameraData.camPropPos.Z);
+                            if(Vector3.Distance(p.Position, player.Position) < 120)
+                            {
+                                p.TriggerEvent("client:handleCameraFlash", player.Vehicle.Id, cameraData.camFlashPos.X, cameraData.camFlashPos.Y, cameraData.camFlashPos.Z);
+                            }
                         });
 
                         // Replace this with your system of removing player money.
