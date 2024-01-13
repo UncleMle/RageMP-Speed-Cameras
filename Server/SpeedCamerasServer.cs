@@ -112,30 +112,24 @@ namespace CloudRP.SpeedCameras
                 NAPI.Object.CreateObject(NAPI.Util.GetHashKey("prop_cctv_pole_04"), cam.camPropPos, new Vector3(0, 0, cam.camRot));
                 ColShape speedCamCol = NAPI.ColShape.CreateSphereColShape(cam.position, cam.range, 0);
                 speedCamCol.SetData(_speedCameraDataIdentifier, cam);
+
+                speedCamCol.OnEntityEnterColShape += (col, player) =>
+                {
+                    if(col.Equals(speedCamCol) && player.isInVehicle)
+                    {
+                        player.TriggerEvent("client:speedCameraTrigger");
+                        player.SetData(_speedCameraDataIdentifier, camData);
+                    }
+                };
+
+                speedCamCol.OnEntityExitColShape += (col, player) =>
+                {
+                    if(col.Equals(speedCamCol))
+                    {
+                        player.ResetData(_speedCameraDataIdentifier);
+                    }
+                };
             });
-        }
-
-        [ServerEvent(Event.PlayerEnterColshape)]
-        public void setSpeedCamData(ColShape colshape, Player player)
-        {
-            SpeedCamera camData = colshape.GetData<SpeedCamera>(_speedCameraDataIdentifier);
-
-            if(camData != null && player.IsInVehicle)
-            {
-                player.TriggerEvent("client:speedCameraTrigger");
-                player.SetData(_speedCameraDataIdentifier, camData);
-            }
-        }
-
-        [ServerEvent(Event.PlayerExitColshape)]
-        public void removeSpeedCamData(ColShape colshape, Player player)
-        {
-            SpeedCamera camData = colshape.GetData<SpeedCamera>(_speedCameraDataIdentifier);
-
-            if(camData != null)
-            {
-                player.ResetData(_speedCameraDataIdentifier);
-            }
         }
 
         [RemoteEvent("server:handleSpeedCamera")]
@@ -172,6 +166,7 @@ namespace CloudRP.SpeedCameras
             }
         }
     }
+
     public class SpeedCamera
     {
         public Vector3 position { get; set; }
